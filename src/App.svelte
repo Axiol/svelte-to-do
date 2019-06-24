@@ -6,6 +6,7 @@
 	let showCompleted = true;
 
 	$: filterTasks = $tasks.filter(t => showCompleted === true ? true : t.completed === false);
+	$: incompleteCount = $tasks.filter(t => t.completed === false).length;
 
 	const addTask = () => {
 		$tasks = [...$tasks, {
@@ -31,7 +32,7 @@
 	};
 </script>
 
-<h1>To-do</h1>
+<h1>To-do ({incompleteCount} left)</h1>
 
 <label><input type="checkbox" bind:checked={showCompleted}> Show completed</label>
 
