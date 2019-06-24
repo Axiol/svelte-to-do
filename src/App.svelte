@@ -30,6 +30,14 @@
 	const deleteTask = (task) => {
 		$tasks = $tasks.filter(t => t !== task);
 	};
+
+	const deleteCompleted = () => {
+		$tasks = $tasks.filter(t => {
+			if(t.completed === false) {
+				return t;
+			}
+		});
+	};
 </script>
 
 <h1>To-do ({incompleteCount} left)</h1>
@@ -42,8 +50,14 @@
 	{/each}
 </ul>
 
-<input type="text" bind:value="{newTask}">
-<button on:click|preventDefault={addTask}>Add</button>
+<div>
+	<input type="text" bind:value="{newTask}">
+	<button on:click|preventDefault={addTask}>Add</button>
+</div>
+
+<div>
+	<button on:click|preventDefault={() => {deleteCompleted()}}>Delete completed</button>
+</div>
 
 <p>{JSON.stringify($tasks)}</p>
 <p>{JSON.stringify(newTask)}</p>
