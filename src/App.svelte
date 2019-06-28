@@ -38,6 +38,12 @@
 			}
 		});
 	};
+
+	const completeEverything = () => {
+		$tasks = $tasks.map(t => {
+			return {...t, ...{completed: true}};
+		});
+	};
 </script>
 
 <h1>To-do ({incompleteCount} left)</h1>
@@ -53,6 +59,10 @@
 <div>
 	<input type="text" bind:value="{newTask}">
 	<button on:click|preventDefault={addTask}>Add</button>
+</div>
+
+<div>
+	<button on:click|preventDefault={() => {completeEverything()}}>Mark all as completed</button>
 </div>
 
 <div>
