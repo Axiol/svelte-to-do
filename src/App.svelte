@@ -2,6 +2,8 @@
 	import Task from './Task.svelte';
 	import {tasks} from './store.js';
 
+	tasks.useLocalStorage();
+
 	let newTask = '';
 	let showCompleted = true;
 

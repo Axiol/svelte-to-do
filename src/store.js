@@ -1,12 +1,22 @@
 import {writable} from 'svelte/store';
 
-export const tasks = writable([{
-  id: 0,
-  name: 'Test task',
-  completed: false
-},
-{
-  id: 1,
-  name: 'Test task 2',
-  completed: true
-}]);
+const createWritableStore = (key, startValue) => {
+  const { subscribe, set } = writable(startValue);
+  
+	return {
+    subscribe,
+    set,
+    useLocalStorage: () => {
+      const json = localStorage.getItem(key);
+      if (json) {
+        set(JSON.parse(json));
+      }
+      
+      subscribe(current => {
+        localStorage.setItem(key, JSON.stringify(current));
+      });
+    }
+  };
+}
+
+export const tasks = createWritableStore('svelte-tasks', []);
