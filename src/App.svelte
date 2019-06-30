@@ -5,10 +5,14 @@
 	tasks.useLocalStorage();
 
 	let newTask = '';
-	let showCompleted = true;
+	let showCompleted = 'all';
 
-	$: filterTasks = $tasks.filter(t => showCompleted === true ? true : t.completed === false);
+	$: filterTasks = $tasks.filter(t => showCompleted === 'all' ? t : t.completed === !showCompleted);
 	$: incompleteCount = $tasks.filter(t => t.completed === false).length;
+
+	const setFilter = (filter) => {
+		showCompleted = filter;
+	};
 
 	const addTask = () => {
 		$tasks = [...$tasks, {
@@ -50,7 +54,7 @@
 
 <h1>To-do ({incompleteCount} left)</h1>
 
-<label><input type="checkbox" bind:checked={showCompleted}> Show completed</label>
+<p><button on:click|preventDefault={() => {setFilter('all')}}>All</button><button on:click|preventDefault={() => {setFilter(true)}}>Completed</button><button on:click|preventDefault={() => {setFilter(false)}}>Incompleted</button></p>
 
 <ul>
 	{#each filterTasks as task (task.id)}
@@ -70,6 +74,3 @@
 <div>
 	<button on:click|preventDefault={() => {deleteCompleted()}}>Delete completed</button>
 </div>
-
-<p>{JSON.stringify($tasks)}</p>
-<p>{JSON.stringify(newTask)}</p>
